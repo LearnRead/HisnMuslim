@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📖 حصن المسلم - الأذكار اليومية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* --------- Variables & Reset --------- */
+  :root {
+    --primary: #1e3a8a;
+    --primary-light: #3b82f6;
+    --primary-dark: #1e40af;
+    --secondary: #0f766e;
+    --accent: #f59e0b;
+    --light: #f8fafc;
+    --dark: #1e293b;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+    --success: #10b981;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --radius: 12px;
+    --transition: all 0.3s ease;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* --------- Body & Layout --------- */
+  body {
+    font-family: 'Tajawal', 'Amiri', sans-serif;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    color: var(--dark);
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* --------- Menu latéral fixe --------- */
+  aside {
+    width: 360px;
+    min-width: 360px;
+    background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+    color: white;
+    overflow-y: auto;
+    padding: 24px 20px;
+    box-shadow: var(--shadow-lg);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+    transition: var(--transition);
+  }
+
+  .app-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .app-header h1 {
+    font-size: 1.6em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .app-header p {
+    font-size: 0.9em;
+    opacity: 0.8;
+    font-weight: 300;
+  }
+
+  .search-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  #searchBox {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    border-radius: var(--radius);
+    border: none;
+    font-size: 1em;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
+  }
+
+  #searchBox::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  #searchBox:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .menu-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 1.05em;
+    width: 100%;
+    text-align: right;
+    padding: 14px 16px;
+    margin: 6px 0;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(5px);
+  }
+
+  .menu-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-4px);
+  }
+
+  .menu-item.active {
+    background: var(--primary-light);
+    box-shadow: var(--shadow);
+  }
+
+  .menu-item .item-icon {
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
+
+  /* --------- Contenu principal --------- */
+  main {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 30px;
+    height: 100vh;
+    background: var(--light);
+    position: relative;
+    min-width: 0;
+    transition: var(--transition);
+  }
+
+  .content-header {
+    background: white;
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .content-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+  }
+
+  .content-header h1 {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 1.8em;
+  }
+
+  .content-header p {
+    color: var(--gray);
+    font-size: 1.1em;
+  }
+
+  .content-body {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .content-body h2 {
+    color: var(--primary);
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .content-body h2::before {
+    content: '📖';
+  }
+
+  .dua-item {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--gray-light);
+  }
+
+  .dua-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .arabic-text {
+    font-family: 'Amiri', serif;
+    font-size: 1.5em;
+    line-height: 1.8em;
+    margin-bottom: 16px;
+    text-align: justify;
+    color: var(--dark);
+  }
+
+  .translation {
+    font-size: 1.1em;
+    line-height: 1.6em;
+    color: var(--gray);
+    margin-bottom: 12px;
+    padding: 12px 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-right: 3px solid var(--primary-light);
+  }
+
+  .dua-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+  }
+
+  .repeat-badge {
+    background: var(--secondary);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .audio-btn {
+    background: var(--primary-light);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+  }
+
+  .audio-btn:hover {
+    background: var(--primary);
+    transform: scale(1.05);
+  }
+
+  .audio-btn.playing {
+    background: var(--accent);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(245, 158, 11, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--gray);
+  }
+
+  .empty-state .icon {
+    font-size: 3em;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .empty-state h3 {
+    font-size: 1.3em;
+    margin-bottom: 8px;
+  }
+
+  /* --------- Status Indicators --------- */
+  .status-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+  }
+
+  .status-online {
+    background: var(--success);
+    color: white;
+  }
+
+  .status-offline {
+    background: var(--accent);
+    color: white;
+  }
+
+  .offline-notice {
+    background: var(--accent);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.5s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* --------- Footer --------- */
+  .app-footer {
+    text-align: center;
+    padding: 16px;
+    color: var(--gray);
+    font-size: 0.9em;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* --------- Mobile Navigation --------- */
+  .mobile-header {
+    display: none;
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+
+  .mobile-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mobile-header h1 {
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition);
+  }
+
+  .menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .back-button {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    align-items: center;
+    gap: 8px;
+  }
+
+  .back-button:hover {
+    background: var(--gray-light);
+  }
+
+  /* --------- Responsive Design --------- */
+  @media (max-width: 1024px) {
+    aside {
+      width: 320px;
+      min-width: 320px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body {
+      flex-direction: column;
+      overflow: auto;
+    }
+    
+    .mobile-header {
+      display: block;
+    }
+    
+    aside {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 90;
+      transform: translateX(100%);
+      padding-top: 80px;
+    }
+    
+    aside.active {
+      transform: translateX(0);
+    }
+    
+    main {
+      width: 100%;
+      height: auto;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    
+    .content-header {
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .content-body {
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .arabic-text {
+      font-size: 1.3em;
+      line-height: 1.6em;
+    }
+    
+    .back-button {
+      display: flex;
+    }
+    
+    .menu-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 80;
+    }
+    
+    .menu-overlay.active {
+      display: block;
+    }
+
+    .status-indicator {
+      bottom: 10px;
+      left: 10px;
+      font-size: 0.7em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mobile-header {
+      padding: 12px 16px;
+    }
+    
+    .mobile-header h1 {
+      font-size: 1.2em;
+    }
+    
+    .content-header h1 {
+      font-size: 1.5em;
+    }
+    
+    .content-body h2 {
+      font-size: 1.3em;
+    }
+    
+    .arabic-text {
+      font-size: 1.2em;
+    }
+    
+    .translation {
+      font-size: 1em;
+    }
+    
+    .dua-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .audio-btn {
+      width: 40px;
+      height: 40px;
+      align-self: flex-end;
+    }
+    
+    .app-header h1 {
+      font-size: 1.4em;
+    }
+    
+    .menu-item {
+      padding: 12px 14px;
+      font-size: 1em;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .mobile-header h1 {
+      font-size: 1.1em;
+    }
+    
+    .content-header h1 {
+      font-size: 1.3em;
+    }
+    
+    .arabic-text {
+      font-size: 1.1em;
+    }
+    
+    .menu-item {
+      padding: 10px 12px;
+    }
+  }
+
+  /* --------- Scrollbar Customization --------- */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  main::-webkit-scrollbar-track {
+    background: var(--gray-light);
+  }
+
+  main::-webkit-scrollbar-thumb {
+    background: var(--gray);
+  }
+
+  main::-webkit-scrollbar-thumb:hover {
+    background: var(--dark);
+  }
+</style>
+</head>
+<body>
+
+<!-- Status Indicator -->
+<div class="status-indicator status-online" id="statusIndicator">
+  <span class="status-dot">●</span>
+  <span class="status-text">متصل بالإنترنت</span>
+</div>
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <div class="mobile-header-content">
+    <h1>📖 حصن المسلم</h1>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+  </div>
+</div>
+
+<!-- Menu Overlay for Mobile -->
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<aside id="menu">
+  <div class="app-header">
+    <h1>📖 حصن المسلم</h1>
+    <p>الأذكار اليومية من الكتاب والسنة</p>
+  </div>
+  
+  <div class="search-container">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchBox" placeholder="ابحث في الأذكار...">
+  </div>
+  
+  <div id="list"></div>
+  
+  <div class="app-footer">
+    <p>جميع الحقوق محفوظة © حصن المسلم</p>
+  </div>
+</aside>
+
+<main id="content">
+  <button class="back-button" id="backButton">
+    <span>↶</span> العودة للقائمة
+  </button>
+  
+  <div class="content-header">
+    <h1>حصن المسلم</h1>
+    <p>اختر من القائمة على اليمين لعرض الذكر مع النص الكامل</p>
+  </div>
+  
+  <div id="offlineNotice" style="display: none;" class="offline-notice">
+    <span>⚠️</span>
+    <span>أنت غير متصل بالإنترنت. يتم عرض المحتوى المخزن محلياً.</span>
+  </div>
+  
+  <div class="empty-state" id="emptyState">
+    <div class="icon">📖</div>
+    <h3>مرحباً بك في حصن المسلم</h3>
+    <p>اختر ذكراً من القائمة الجانبية لبدء التلاوة والاستماع</p>
+  </div>
+  
+  <div class="content-body" id="contentBody" style="display: none;">
+    <!-- سيتم ملء المحتوى هنا ديناميكياً -->
+  </div>
+</main>
+
+<script>
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(registration) {
+        console.log('ServiceWorker registration successful');
+      })
+      .catch(function(error) {
+        console.log('ServiceWorker registration failed: ', error);
+      });
+  });
+}
+
+const listDiv = document.getElementById("list");
+const searchBox = document.getElementById("searchBox");
+const contentBody = document.getElementById("contentBody");
+const emptyState = document.getElementById("emptyState");
+const menuToggle = document.getElementById("menuToggle");
+const menuOverlay = document.getElementById("menuOverlay");
+const backButton = document.getElementById("backButton");
+const menu = document.getElementById("menu");
+const statusIndicator = document.getElementById("statusIndicator");
+const offlineNotice = document.getElementById("offlineNotice");
+
+let allItems = [];
+let currentAudio = null;
+let isOnline = navigator.onLine;
+
+// بيانات كاملة مخزنة محلياً
+const fullContentData = {
+  "العربية": [
+    {
+      "TITLE": "أذكار الصباح",
+      "CONTENT": {
+        "أذكار الصباح": [
+          {
+            "ARABIC_TEXT": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "أعوذ بالله من الشيطان الرجيم",
+            "REPEAT": 1,
+            "AUDIO": "https://www.islamicfinder.org/wp-content/uploads/2020/04/001.mp3"
+          },
+          {
+            "ARABIC_TEXT": "اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ",
+            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "الله لا إله إلا هو الحي القيوم لا تأخذه سنة ولا نوم",
+            "REPEAT": 1,
+            "AUDIO": "https://www.islamicfinder.org/wp-content/uploads/2020/04/002.mp3"
+          }
+        ]
+      }
+    },
+    {
+      "TITLE": "أذكار المساء",
+      "CONTENT": {
+        "أذكار المساء": [
+          {
+            "ARABIC_TEXT": "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ",
+            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له",
+            "REPEAT": 1
+          }
+        ]
+      }
+    },
+    {
+      "TITLE": "أذكار النوم",
+      "CONTENT": {
+        "أذكار النوم": [
+          {
+            "ARABIC_TEXT": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "باسمك اللهم أموت وأحيا",
+            "REPEAT": 1
+          }
+        ]
+      }
+    },
+    {
+      "TITLE": "أذكار الاستيقاظ",
+      "CONTENT": {
+        "أذكار الاستيقاظ": [
+          {
+            "ARABIC_TEXT": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور",
+            "REPEAT": 1
+          }
+        ]
+      }
+    }
+  ]
+};
+
+// تحديث حالة الاتصال
+function updateOnlineStatus() {
+  isOnline = navigator.onLine;
+  if (isOnline) {
+    statusIndicator.className = 'status-indicator status-online';
+    statusIndicator.innerHTML = '<span class="status-dot">●</span><span class="status-text">متصل بالإنترنت</span>';
+    offlineNotice.style.display = 'none';
+  } else {
+    statusIndicator.className = 'status-indicator status-offline';
+    statusIndicator.innerHTML = '<span class="status-dot">●</span><span class="status-text">غير متصل</span>';
+    offlineNotice.style.display = 'none';
+  }
+}
+
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+// Mobile menu functionality
+function toggleMenu() {
+  menu.classList.toggle('active');
+  menuOverlay.classList.toggle('active');
+  document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
+}
+
+menuToggle.addEventListener('click', toggleMenu);
+menuOverlay.addEventListener('click', toggleMenu);
+
+// Back button functionality
+backButton.addEventListener('click', function() {
+  contentBody.style.display = 'none';
+  emptyState.style.display = 'block';
+  backButton.style.display = 'none';
+});
+
+// تحميل القائمة الرئيسية
+function loadData() {
+  // محاولة تحميل البيانات من API أولاً
+  if (isOnline) {
+    fetch("http://www.hisnmuslim.com/api/ar/husn_ar.json")
+      .then(r => r.json())
+      .then(data => {
+        allItems = data["العربية"];
+        renderList(allItems);
+        // حفظ البيانات محلياً
+        localStorage.setItem('hisnmuslim_data', JSON.stringify(data));
+      })
+      .catch(error => {
+        console.error("Error loading data from API:", error);
+        loadFromLocalStorage();
+      });
+  } else {
+    loadFromLocalStorage();
+  }
+}
+
+// تحميل البيانات من التخزين المحلي
+function loadFromLocalStorage() {
+  const localData = localStorage.getItem('hisnmuslim_data');
+  if (localData) {
+    const data = JSON.parse(localData);
+    allItems = data["العربية"];
+    renderList(allItems);
+  } else {
+    // استخدام البيانات المضمنة كبديل
+    allItems = fullContentData["العربية"];
+    renderList(allItems);
+  }
+}
+
+// وظيفة لعرض العناصر المصفاة
+function renderList(items){
+  listDiv.innerHTML = '';
+  
+  if (items.length === 0) {
+    listDiv.innerHTML = '<p style="color: white; text-align: center; padding: 20px;">لا توجد نتائج للبحث</p>';
+    return;
+  }
+  
+  items.forEach(item => {
+    const btn = document.createElement("button");
+    btn.className = "menu-item";
+    btn.innerHTML = `
+      <span>${item.TITLE}</span>
+      <span class="item-icon">📜</span>
+    `;
+    btn.onclick = () => {
+      document.querySelectorAll(".menu-item").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      loadContent(item);
+      
+      // إغلاق القائمة على الهواتف المحمولة
+      if (window.innerWidth <= 768) {
+        toggleMenu();
+      }
+    };
+    listDiv.appendChild(btn);
+  });
+}
+
+// التصفية في الوقت الحقيقي
+searchBox.addEventListener("input", e => {
+  const val = e.target.value.trim();
+  if(!val) renderList(allItems);
+  else {
+    const filtered = allItems.filter(i => i.TITLE.includes(val));
+    renderList(filtered);
+  }
+});
+
+// تحميل محتوى الفصل
+function loadContent(item) {
+  emptyState.style.display = 'none';
+  contentBody.style.display = 'block';
+  backButton.style.display = 'flex';
+  
+  // التحقق مما إذا كان المحتوى مخزناً محلياً
+  if (item.CONTENT) {
+    displayContent(item.CONTENT, item.TITLE);
+  } else {
+    // محاولة تحميل المحتوى من API
+    if (isOnline) {
+      fetch(item.TEXT)
+        .then(r => r.json())
+        .then(data => {
+          displayContent(data, item.TITLE);
+          // حفظ المحتوى محلياً
+          saveContentLocally(item.TITLE, data);
+        })
+        .catch(error => {
+          console.error("Error loading content:", error);
+          loadContentFromLocal(item.TITLE);
+        });
+    } else {
+      loadContentFromLocal(item.TITLE);
+    }
+  }
+}
+
+// تحميل المحتوى من التخزين المحلي
+function loadContentFromLocal(title) {
+  const localContent = localStorage.getItem(`hisnmuslim_${title}`);
+  if (localContent) {
+    const data = JSON.parse(localContent);
+    displayContent(data, title);
+  } else {
+    // البحث في البيانات المضمنة
+    const embeddedItem = fullContentData["العربية"].find(item => item.TITLE === title);
+    if (embeddedItem && embeddedItem.CONTENT) {
+      displayContent(embeddedItem.CONTENT, title);
+    } else {
+      displayFallbackContent(title);
+    }
+  }
+}
+
+// حفظ المحتوى محلياً
+function saveContentLocally(title, content) {
+  localStorage.setItem(`hisnmuslim_${title}`, JSON.stringify(content));
+}
+
+// عرض محتوى بديل عند عدم التوفر
+function displayFallbackContent(title) {
+  const fallbackContent = {
+    [title]: [
+      {
+        "ARABIC_TEXT": "لا يتوفر محتوى لهذا الذكر حالياً",
+        "LANGUAGE_ARABIC_TRANSLATED_TEXT": "يرجى الاتصال بالإنترنت لتحميل المحتوى",
+        "REPEAT": 1
+      }
+    ]
+  };
+  displayContent(fallbackContent, title);
+}
+
+// عرض المحتوى في الصفحة
+function displayContent(data, title) {
+  const rootKey = Object.keys(data)[0];
+  const entries = data[rootKey];
+
+  let html = `<h2>${rootKey}</h2>`;
+
+  entries.forEach(entry => {
+    html += `
+      <div class="dua-item">
+        <div class="arabic-text">${entry.ARABIC_TEXT || ""}</div>
+    `;
+
+    if(entry.LANGUAGE_ARABIC_TRANSLATED_TEXT) {
+      html += `<div class="translation">${entry.LANGUAGE_ARABIC_TRANSLATED_TEXT}</div>`;
+    }
+
+    html += `<div class="dua-meta">`;
+
+    if(entry.REPEAT && entry.REPEAT > 1){
+      html += `<div class="repeat-badge"><span>🔁</span> تكرر ${entry.REPEAT} مرات</div>`;
+    } else {
+      html += `<div></div>`;
+    }
+
+    // زر الصوت الفردي
+    if(entry.AUDIO){
+      html += `<button class="audio-btn" onclick="playAudio('${entry.AUDIO}', this)">▶️</button>`;
+    }
+
+    html += `</div></div>`;
+  });
+
+  contentBody.innerHTML = html;
+  contentBody.scrollTo({top:0, behavior:"smooth"});
+}
+
+// تشغيل الصوت
+function playAudio(url, button) {
+  // إيقاف الصوت الحالي إذا كان يعمل
+  if(currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    document.querySelectorAll('.audio-btn').forEach(btn => {
+      btn.classList.remove('playing');
+      btn.innerHTML = '▶️';
+    });
+  }
+  
+  // إذا كان الزر نفسه الذي تم النقر عليه، توقف
+  if (button.classList.contains('playing')) {
+    button.classList.remove('playing');
+    button.innerHTML = '▶️';
+    currentAudio = null;
+    return;
+  }
+  
+  // تشغيل الصوت الجديد
+  currentAudio = new Audio(url);
+  currentAudio.play();
+  
+  // تحديث حالة الأزرار
+  document.querySelectorAll('.audio-btn').forEach(btn => {
+    btn.classList.remove('playing');
+    btn.innerHTML = '▶️';
+  });
+  
+  button.classList.add('playing');
+  button.innerHTML = '⏸️';
+  
+  // عند انتهاء الصوت
+  currentAudio.onended = function() {
+    button.classList.remove('playing');
+    button.innerHTML = '▶️';
+    currentAudio = null;
+  };
+  
+  // في حالة حدوث خطأ
+  currentAudio.onerror = function() {
+    button.classList.remove('playing');
+    button.innerHTML = '▶️';
+    currentAudio = null;
+    if (isOnline) {
+      alert('حدث خطأ في تشغيل الصوت. يرجى المحاولة مرة أخرى.');
+    } else {
+      alert('لا يمكن تشغيل الصوت بدون اتصال بالإنترنت.');
+    }
+  };
+}
+
+// تهيئة التطبيق عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+  updateOnlineStatus();
+  loadData();
+  
+  // إخفاء زر العودة في البداية
+  backButton.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
