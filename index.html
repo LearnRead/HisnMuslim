@@ -321,54 +321,6 @@
     margin-bottom: 8px;
   }
 
-  /* --------- Status Indicators --------- */
-  .status-indicator {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.8em;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: var(--transition);
-  }
-
-  .status-online {
-    background: var(--success);
-    color: white;
-  }
-
-  .status-offline {
-    background: var(--accent);
-    color: white;
-  }
-
-  .offline-notice {
-    background: var(--accent);
-    color: white;
-    padding: 12px 20px;
-    border-radius: var(--radius);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: slideIn 0.5s ease;
-  }
-
-  @keyframes slideIn {
-    from {
-      transform: translateY(-20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
   /* --------- Footer --------- */
   .app-footer {
     text-align: center;
@@ -515,12 +467,6 @@
     .menu-overlay.active {
       display: block;
     }
-
-    .status-indicator {
-      bottom: 10px;
-      left: 10px;
-      font-size: 0.7em;
-    }
   }
 
   @media (max-width: 480px) {
@@ -622,12 +568,6 @@
 </head>
 <body>
 
-<!-- Status Indicator -->
-<div class="status-indicator status-online" id="statusIndicator">
-  <span class="status-dot">●</span>
-  <span class="status-text">متصل بالإنترنت</span>
-</div>
-
 <!-- Mobile Header -->
 <div class="mobile-header">
   <div class="mobile-header-content">
@@ -667,11 +607,6 @@
     <p>اختر من القائمة على اليمين لعرض الذكر مع النص الكامل</p>
   </div>
   
-  <div id="offlineNotice" style="display: none;" class="offline-notice">
-    <span>⚠️</span>
-    <span>أنت غير متصل بالإنترنت. يتم عرض المحتوى المخزن محلياً.</span>
-  </div>
-  
   <div class="empty-state" id="emptyState">
     <div class="icon">📖</div>
     <h3>مرحباً بك في حصن المسلم</h3>
@@ -684,19 +619,6 @@
 </main>
 
 <script>
-// Service Worker Registration
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(registration) {
-        console.log('ServiceWorker registration successful');
-      })
-      .catch(function(error) {
-        console.log('ServiceWorker registration failed: ', error);
-      });
-  });
-}
-
 const listDiv = document.getElementById("list");
 const searchBox = document.getElementById("searchBox");
 const contentBody = document.getElementById("contentBody");
@@ -705,90 +627,71 @@ const menuToggle = document.getElementById("menuToggle");
 const menuOverlay = document.getElementById("menuOverlay");
 const backButton = document.getElementById("backButton");
 const menu = document.getElementById("menu");
-const statusIndicator = document.getElementById("statusIndicator");
-const offlineNotice = document.getElementById("offlineNotice");
-
 let allItems = [];
 let currentAudio = null;
-let isOnline = navigator.onLine;
 
-// بيانات كاملة مخزنة محلياً
-const fullContentData = {
+// بيانات تجريبية في حال فشل تحميل البيانات من API
+const sampleData = {
   "العربية": [
     {
       "TITLE": "أذكار الصباح",
-      "CONTENT": {
-        "أذكار الصباح": [
-          {
-            "ARABIC_TEXT": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
-            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "أعوذ بالله من الشيطان الرجيم",
-            "REPEAT": 1,
-            "AUDIO": "https://www.islamicfinder.org/wp-content/uploads/2020/04/001.mp3"
-          },
-          {
-            "ARABIC_TEXT": "اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ",
-            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "الله لا إله إلا هو الحي القيوم لا تأخذه سنة ولا نوم",
-            "REPEAT": 1,
-            "AUDIO": "https://www.islamicfinder.org/wp-content/uploads/2020/04/002.mp3"
-          }
-        ]
-      }
+      "TEXT": "sample_data/morning.json"
     },
     {
       "TITLE": "أذكار المساء",
-      "CONTENT": {
-        "أذكار المساء": [
-          {
-            "ARABIC_TEXT": "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ",
-            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له",
-            "REPEAT": 1
-          }
-        ]
-      }
+      "TEXT": "sample_data/evening.json"
     },
     {
       "TITLE": "أذكار النوم",
-      "CONTENT": {
-        "أذكار النوم": [
-          {
-            "ARABIC_TEXT": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
-            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "باسمك اللهم أموت وأحيا",
-            "REPEAT": 1
-          }
-        ]
-      }
+      "TEXT": "sample_data/sleep.json"
     },
     {
       "TITLE": "أذكار الاستيقاظ",
-      "CONTENT": {
-        "أذكار الاستيقاظ": [
-          {
-            "ARABIC_TEXT": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
-            "LANGUAGE_ARABIC_TRANSLATED_TEXT": "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور",
-            "REPEAT": 1
-          }
-        ]
-      }
+      "TEXT": "sample_data/wakeup.json"
+    },
+    {
+      "TITLE": "أذكار بعد الصلاة",
+      "TEXT": "sample_data/after_prayer.json"
+    },
+    {
+      "TITLE": "أذكار دخول المسجد",
+      "TEXT": "sample_data/mosque.json"
+    },
+    {
+      "TITLE": "أذكار الخروج من المنزل",
+      "TEXT": "sample_data/leave_home.json"
+    },
+    {
+      "TITLE": "أذكار الطعام",
+      "TEXT": "sample_data/food.json"
     }
   ]
 };
 
-// تحديث حالة الاتصال
-function updateOnlineStatus() {
-  isOnline = navigator.onLine;
-  if (isOnline) {
-    statusIndicator.className = 'status-indicator status-online';
-    statusIndicator.innerHTML = '<span class="status-dot">●</span><span class="status-text">متصل بالإنترنت</span>';
-    offlineNotice.style.display = 'none';
-  } else {
-    statusIndicator.className = 'status-indicator status-offline';
-    statusIndicator.innerHTML = '<span class="status-dot">●</span><span class="status-text">غير متصل</span>';
-    offlineNotice.style.display = 'none';
-  }
-}
-
-window.addEventListener('online', updateOnlineStatus);
-window.addEventListener('offline', updateOnlineStatus);
+// بيانات تجريبية للمحتوى
+const sampleContent = {
+  "أذكار الصباح": [
+    {
+      "ARABIC_TEXT": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+      "LANGUAGE_ARABIC_TRANSLATED_TEXT": "أعوذ بالله من الشيطان الرجيم",
+      "REPEAT": 1,
+      "AUDIO": "https://www.islamicfinder.org/wp-content/uploads/2020/04/001.mp3"
+    },
+    {
+      "ARABIC_TEXT": "اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ",
+      "LANGUAGE_ARABIC_TRANSLATED_TEXT": "الله لا إله إلا هو الحي القيوم لا تأخذه سنة ولا نوم",
+      "REPEAT": 1,
+      "AUDIO": "https://www.islamicfinder.org/wp-content/uploads/2020/04/002.mp3"
+    }
+  ],
+  "أذكار المساء": [
+    {
+      "ARABIC_TEXT": "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ",
+      "LANGUAGE_ARABIC_TRANSLATED_TEXT": "أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له",
+      "REPEAT": 1
+    }
+  ]
+};
 
 // Mobile menu functionality
 function toggleMenu() {
@@ -809,37 +712,20 @@ backButton.addEventListener('click', function() {
 
 // تحميل القائمة الرئيسية
 function loadData() {
-  // محاولة تحميل البيانات من API أولاً
-  if (isOnline) {
-    fetch("http://www.hisnmuslim.com/api/ar/husn_ar.json")
-      .then(r => r.json())
-      .then(data => {
-        allItems = data["العربية"];
-        renderList(allItems);
-        // حفظ البيانات محلياً
-        localStorage.setItem('hisnmuslim_data', JSON.stringify(data));
-      })
-      .catch(error => {
-        console.error("Error loading data from API:", error);
-        loadFromLocalStorage();
-      });
-  } else {
-    loadFromLocalStorage();
-  }
-}
-
-// تحميل البيانات من التخزين المحلي
-function loadFromLocalStorage() {
-  const localData = localStorage.getItem('hisnmuslim_data');
-  if (localData) {
-    const data = JSON.parse(localData);
-    allItems = data["العربية"];
-    renderList(allItems);
-  } else {
-    // استخدام البيانات المضمنة كبديل
-    allItems = fullContentData["العربية"];
-    renderList(allItems);
-  }
+  // محاولة تحميل البيانات من API
+  fetch("http://www.hisnmuslim.com/api/ar/husn_ar.json")
+    .then(r => r.json())
+    .then(data => {
+      allItems = data["العربية"];
+      renderList(allItems);
+    })
+    .catch(error => {
+      console.error("Error loading data:", error);
+      // استخدام البيانات التجريبية في حالة فشل التحميل
+      allItems = sampleData["العربية"];
+      renderList(allItems);
+      console.log("Using sample data due to API error");
+    });
 }
 
 // وظيفة لعرض العناصر المصفاة
@@ -888,63 +774,26 @@ function loadContent(item) {
   contentBody.style.display = 'block';
   backButton.style.display = 'flex';
   
-  // التحقق مما إذا كان المحتوى مخزناً محلياً
-  if (item.CONTENT) {
-    displayContent(item.CONTENT, item.TITLE);
-  } else {
-    // محاولة تحميل المحتوى من API
-    if (isOnline) {
-      fetch(item.TEXT)
-        .then(r => r.json())
-        .then(data => {
-          displayContent(data, item.TITLE);
-          // حفظ المحتوى محلياً
-          saveContentLocally(item.TITLE, data);
-        })
-        .catch(error => {
-          console.error("Error loading content:", error);
-          loadContentFromLocal(item.TITLE);
-        });
-    } else {
-      loadContentFromLocal(item.TITLE);
-    }
-  }
-}
-
-// تحميل المحتوى من التخزين المحلي
-function loadContentFromLocal(title) {
-  const localContent = localStorage.getItem(`hisnmuslim_${title}`);
-  if (localContent) {
-    const data = JSON.parse(localContent);
-    displayContent(data, title);
-  } else {
-    // البحث في البيانات المضمنة
-    const embeddedItem = fullContentData["العربية"].find(item => item.TITLE === title);
-    if (embeddedItem && embeddedItem.CONTENT) {
-      displayContent(embeddedItem.CONTENT, title);
-    } else {
-      displayFallbackContent(title);
-    }
-  }
-}
-
-// حفظ المحتوى محلياً
-function saveContentLocally(title, content) {
-  localStorage.setItem(`hisnmuslim_${title}`, JSON.stringify(content));
-}
-
-// عرض محتوى بديل عند عدم التوفر
-function displayFallbackContent(title) {
-  const fallbackContent = {
-    [title]: [
-      {
-        "ARABIC_TEXT": "لا يتوفر محتوى لهذا الذكر حالياً",
-        "LANGUAGE_ARABIC_TRANSLATED_TEXT": "يرجى الاتصال بالإنترنت لتحميل المحتوى",
-        "REPEAT": 1
-      }
-    ]
-  };
-  displayContent(fallbackContent, title);
+  // محاولة تحميل المحتوى من API
+  fetch(item.TEXT)
+    .then(r => r.json())
+    .then(data => {
+      displayContent(data, item.TITLE);
+    })
+    .catch(error => {
+      console.error("Error loading content:", error);
+      // استخدام المحتوى التجريبي في حالة فشل التحميل
+      const content = sampleContent[item.TITLE] || [
+        {
+          "ARABIC_TEXT": "لا يتوفر محتوى لهذا الذكر حالياً",
+          "LANGUAGE_ARABIC_TRANSLATED_TEXT": "يرجى المحاولة مرة أخرى لاحقاً",
+          "REPEAT": 1
+        }
+      ];
+      const mockData = {};
+      mockData[item.TITLE] = content;
+      displayContent(mockData, item.TITLE);
+    });
 }
 
 // عرض المحتوى في الصفحة
@@ -1029,17 +878,12 @@ function playAudio(url, button) {
     button.classList.remove('playing');
     button.innerHTML = '▶️';
     currentAudio = null;
-    if (isOnline) {
-      alert('حدث خطأ في تشغيل الصوت. يرجى المحاولة مرة أخرى.');
-    } else {
-      alert('لا يمكن تشغيل الصوت بدون اتصال بالإنترنت.');
-    }
+    alert('حدث خطأ في تشغيل الصوت. يرجى المحاولة مرة أخرى.');
   };
 }
 
 // تهيئة التطبيق عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
-  updateOnlineStatus();
   loadData();
   
   // إخفاء زر العودة في البداية
